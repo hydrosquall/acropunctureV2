@@ -1,36 +1,158 @@
+-
+  // Stringify data so that it doesn't block page render
+  entryString=[]
+  numItems = rows.length
+  for (var i = 0; i < numItems; i++) {
+    item={}
+    entry = rows[i];
+    item['acronym']    = entry['acronym'];
+    item['definition'] = entry['definition'];
+    item['domain']     = entry['domain'];
+    entryString.push(JSON.stringify(item));
+  }
+
 title Acropuncture Reloaded 
 
 head
-  link(href="../src/css/clusterize.css",rel="stylesheet")
   style.
     body {
       font-family: 'Georgia', 'Arial';
+      background: #FFFFF3; /* Tufte Offset */
     }
-h1.title=title
+    .title {
+      margin-top:30px;
+      margin-bottom: 20px;
+    }
+    .container {
+      text-align: center;
+      max-width: 960px;
+      margin: auto;
+    }
+    .pagination li {
+      display: inline-block;
+      padding: 5px;
+    }
+    .sort {
+      padding-left: 10px;
 
-h2.description Every acronym in the CMS 
+    }
+    .sort:hover {
+      color: #28AADC;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    input[type="text"] {
+      font-family: 'Tahoma', sans-serif;
+      margin: auto;
+      display: block;
+      width: 80%;
+      font-size: 16px;
+      padding: 10px;
+      border: solid 5px #c9c9c9;
+      box-shadow: inset 0 0 0 1px #707070;
+      transition: box-shadow 0.3s, border 0.3s;
+    }
+    input[type="text"]:focus,
+    input[type="text"].focus {
+      border: solid 5px #969696;
+    }
 
-div.clusterize-scroll(id="scrollArea")
-  ul.clusterize-content(id="contentArea")
-    li Loading data ...
+    table { 
+      margin: auto;
+      margin-top: 20px;
+      color: #333;
+      font-family: 'Helvetica', 'Tahoma', sans-serif;
+      width: 80%;
+      border-collapse: collapse; border-spacing: 0; 
+    }
+            
+    td, th {  border: 0 none; height: 30px; }           
+    th {
+      /* Gradient Background */
+        background: #444;
+        color: #FFF; font-weight: bold;
+        height: 40px;
+    }
+            
+    td { background: #FAFAFA; text-align: center; padding: 6px; }
 
-script(src='../src/js/clusterize.js')
+    /* Zebra Stripe Rows */        
+    tr:nth-child(even) td { background: #EEE; } 
+    tr:nth-child(odd) td { background: #FDFDFD; }
 
-- 
-  // Stringify data so that clusterize can render it
-  itemString=[]
-  for (var i = 0; i < rows.length; i++) {
-    entry = rows[i];
-    item =  entry['acronym'] + ' ' + entry['definition'];
-    taggedItem = "<li>" + item + "</li>";
-    itemString.push(JSON.stringify(taggedItem));
-  }
+    /* First-child blank cells! */
+    tr td:first-child, tr th:first-child{ 
+        background: none; 
+        font-style: italic;
+        font-weight: bold;
+        font-size: 16px;
+        text-align: right;
+        padding-right: 10px;
+        width: 80px; 
+    }
 
+    /* Add border-radius to specific cells! */
+    tr:first-child th:nth-child(2) { 
+      border-radius: 5px 0 0 0; 
+    } 
+
+    tr:first-child th:last-child { 
+      border-radius: 0 5px 0 0; 
+    }
+
+div.container
+  h1.title Acropuncture Reloaded
+
+  h3.description Every acronym in the CMS & FDA Databases, at your fingertips! 
+
+  h4 Click table headers to sort!
+
+  h4.searchBar
+    span.numResults=numItems
+    |  of 
+    span.numTotal=numItems
+    |  match your criteria.
+
+  div#acronyms
+    input.search(placeholder="Enter search term here!",type="text")
+    //- button Sort Alphabetically by Domain
+    
+    table
+      thead
+        th.sort(data-sort="acronym") Acronym
+        th.sort(data-sort="definition") Definition
+        th.sort(data-sort="domain") Domain
+      tbody.list
+        tr#item
+          td.acronym
+          td.definition
+          td.domain
+    ul.pagination
+   
+
+script(src='../src/js/list.min.js')
+script(src='../src/js/list.pagination.min.js')
 script.
-  items= !{"[" + itemString + "]"};
-  clusterize = new Clusterize( {
-    rows: items,
-    scrollId: 'scrollArea',
-    contentId: 'contentArea'
-  })
 
+  var options = {
+    item: 'item',
+    left: 10,
+    right: 10,
+    innerWindow: 15,
+    outerWindow: 15,
+    page: 15,
+    plugins: [
+     ListPagination({})
+    ],
+    valueNames : ['acronym', 'definition', 'domain']
+  };
+
+  var values= !{"[" + entryString + "]"};
+  var magicList = new List('acronyms', options, values);
+  var scoreBoard = document.getElementsByClassName('numResults')[0];
+  magicList.remove('acronym', ''); // remove the null
+  
+  magicList.on('searchComplete', function() {
+    var size = magicList.matchingItems.length;
+    scoreBoard.innerHTML = size;
+  })
