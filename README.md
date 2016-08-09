@@ -3,6 +3,8 @@ Flatfile implementation of Alex Rich's Medical Acronyms Search Tool.
 
 <a href="https://hydrosquall.github.io/acropunctureV2" target='_blank'>Live Demo</a>
 
+[Notes on Performance Optimizations Made](https://github.com/hydrosquall/acropunctureV2/wiki/Performance-Notes)
+
 ### Development
 
 ```bash
