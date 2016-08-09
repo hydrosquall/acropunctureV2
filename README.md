@@ -20,4 +20,4 @@ Flatfile implementation of Alex Rich's Medical Acronyms Search Tool.
     # Deploy to github pages
     gulp deploy
 ```
-[Acropuncturev1 (Hosted on Heroku)](www.acropuncture.com)
+[Acropuncturev1 (Hosted on Heroku)](http://www.acropuncture.com)
