@@ -32,6 +32,14 @@ gulp.task('build-templates', function() {
      .pipe(gulp.dest(config.build));
 });
 
+gulp.task('copy-js', function() {
+    return gulp
+     .src(config.js)
+     .pipe($.concat('app.js'))
+     .pipe($.uglify())
+     .pipe(gulp.dest(config.build + "js/"));
+});
+
 gulp.task('deploy', function() {
     return gulp
       .src(config.build + '**/*.*')
