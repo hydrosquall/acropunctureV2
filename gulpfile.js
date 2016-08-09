@@ -40,7 +40,7 @@ gulp.task('copy-js', function() {
      .pipe(gulp.dest(config.build + "js/"));
 });
 
-gulp.task('deploy', function() {
+gulp.task('deploy', ['build-templates'], function() {
     return gulp
       .src(config.build + '**/*.*')
       .pipe($.ghPages());
