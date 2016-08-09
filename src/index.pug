@@ -1,13 +1,36 @@
 title Acropuncture Reloaded 
 
 head
-
+  link(href="../src/css/clusterize.css",rel="stylesheet")
+  style.
+    body {
+      font-family: 'Georgia', 'Arial';
+    }
 h1.title=title
 
 h2.description Every acronym in the CMS 
 
-each row in rows
-  ul
-    li=row['acronym']
-    li=row['definition']
-    li=row['domain']
+div.clusterize-scroll(id="scrollArea")
+  ul.clusterize-content(id="contentArea")
+    li Loading data ...
+
+script(src='../src/js/clusterize.js')
+
+- 
+  // Stringify data so that clusterize can render it
+  itemString=[]
+  for (var i = 0; i < rows.length; i++) {
+    entry = rows[i];
+    item =  entry['acronym'] + ' ' + entry['definition'];
+    taggedItem = "<li>" + item + "</li>";
+    itemString.push(JSON.stringify(taggedItem));
+  }
+
+script.
+  items= !{"[" + itemString + "]"};
+  clusterize = new Clusterize( {
+    rows: items,
+    scrollId: 'scrollArea',
+    contentId: 'contentArea'
+  })
+

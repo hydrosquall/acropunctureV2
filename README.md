@@ -1,7 +1,7 @@
 # acropunctureV2
-Flatfile implementation of Alex Rich's Medical Acronyms Search Tool
+Flatfile implementation of Alex Rich's Medical Acronyms Search Tool.
 
-[Live demo](https://hydrosquall.github.io/acropunctureV2)
+<a href="https://hydrosquall.github.io/acropunctureV2" target='_blank'>Live Demo</a>
 
 ### Development
 
@@ -14,11 +14,10 @@ Flatfile implementation of Alex Rich's Medical Acronyms Search Tool
     # Download new data (if spreadsheet updated)
     gulp update-data
 
-    # Rebuild build folder
+    # Rebuild production app
     gulp build
 
     # Deploy to github pages
     gulp deploy
 ```
-
-Get new data
+[Acropuncturev1 (Hosted on Heroku)](www.acropuncture.com)

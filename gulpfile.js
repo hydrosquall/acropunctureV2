@@ -24,6 +24,7 @@ gulp.task('update-data', function () {
 gulp.task('build-templates', function() {
     return gulp
      .src(config.pug)
+     .pipe($.plumber())
      .pipe($.data( function(file) {
         return require(config.tableData);
      }))
@@ -33,6 +34,6 @@ gulp.task('build-templates', function() {
 
 gulp.task('deploy', function() {
     return gulp
-      .src(config.build)
+      .src(config.build + '**/*.*')
       .pipe($.ghPages());
 });
